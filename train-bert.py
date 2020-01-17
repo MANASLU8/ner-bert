@@ -7,16 +7,6 @@ from modules.train.train import NerLearner
 
 from config import TEST_FILE, DEV_FILE, IDX2LABELS_FILE, CHECKPOINT_FILE, NUM_EPOCHS, TMP_FOLDER
 
-# CKPTS_FOLDER = 'ckpts'
-# TMP_FOLDER = 'tmp'
-# TEST_FILE = f'{TMP_FOLDER}/test.csv'
-# DEV_FILE = f'{TMP_FOLDER}/dev.csv'
-# IDX2LABELS_FILE = f'{TMP_FOLDER}/idx2labels4.txt'
-
-# CHECKPOINT_FILE = f"{CKPTS_FOLDER}/fre-BERTBiLSTMAttnCRF.cpt"
-
-# num_epochs = 100
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 

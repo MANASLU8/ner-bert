@@ -11,15 +11,9 @@ from modules.analyze_utils.utils import bert_labels2tokens, voting_choicer
 from modules.analyze_utils.plot_metrics import get_bert_span_report
 
 from file_operations import read, write_lines
-from config import TEST_FILE, DEV_FILE, IDX2LABELS_FILE, CHECKPOINT_FILE, NUM_EPOCHS, TMP_FOLDER
+from config import TEST_FILE, DEV_FILE, IDX2LABELS_FILE, CHECKPOINT_FILE, NUM_EPOCHS, TMP_FOLDER, RAW_INTERNAL_FILE
 from converters import raw_text_to_internal_format
 
-CKPTS_FOLDER = 'ckpts'
-TMP_FOLDER = 'tmp'
-TEST_FILE = f'{TMP_FOLDER}/test.csv'
-DEV_FILE = f'{TMP_FOLDER}/dev.csv'
-IDX2LABELS_FILE = f'{TMP_FOLDER}/idx2labels4.txt'
-RAW_INTERNAL_FILE = f'{TMP_FOLDER}/raw.csv'
 
 def write_prediction_results(labels, tokens, output_file):
     lines = []
