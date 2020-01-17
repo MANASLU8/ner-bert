@@ -14,8 +14,7 @@ IDX2LABELS_FILE = f'{TMP_FOLDER}/idx2labels4.txt'
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--dev_fre_subset', type=str, default='/home/dima/factRuEval-2016/devset')
-    parser.add_argument('--test_fre_subset', type=str, default='/home/dima/factRuEval-2016/testset')
+    parser.add_argument('--fact_ru_eval_root', type=str, default='/home/dima/factRuEval-2016')
 
     args = parser.parse_args()
     
@@ -24,7 +23,7 @@ if __name__ == "__main__":
 
     # 1. Prepare data
 
-    fact_ru_eval_preprocess(args.dev_fre_subset, args.test_fre_subset, DEV_FILE, TEST_FILE)
+    fact_ru_eval_preprocess(f'{args.fact_ru_eval_root}/devset', f'{args.fact_ru_eval_root}/testset', DEV_FILE, TEST_FILE)
 
     # 2. Preprocess data
 

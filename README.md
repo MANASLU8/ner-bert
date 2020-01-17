@@ -1,6 +1,7 @@
 ## Quick start
 ```sh
-python3 train-bert.py --dev_fre_subset /home/dima/factRuEval-2016/devset --test_fre_subset /home/dima/factRuEval-2016/testset
+pip install -r requirements.txt
+python train-bert.py --fact_ru_eval_root /home/dima/factRuEval-2016
 ```
 ## 0. Papers
 There are two solutions based on this architecture.
