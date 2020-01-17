@@ -5,11 +5,17 @@ from modules.data import bert_data
 from modules.models.bert_models import BERTBiLSTMAttnCRF
 from modules.train.train import NerLearner
 
-CKPTS_FOLDER = 'ckpts'
-TMP_FOLDER = 'tmp'
-TEST_FILE = f'{TMP_FOLDER}/test.csv'
-DEV_FILE = f'{TMP_FOLDER}/dev.csv'
-IDX2LABELS_FILE = f'{TMP_FOLDER}/idx2labels4.txt'
+from config import TEST_FILE, DEV_FILE, IDX2LABELS_FILE, CHECKPOINT_FILE, NUM_EPOCHS, TMP_FOLDER
+
+# CKPTS_FOLDER = 'ckpts'
+# TMP_FOLDER = 'tmp'
+# TEST_FILE = f'{TMP_FOLDER}/test.csv'
+# DEV_FILE = f'{TMP_FOLDER}/dev.csv'
+# IDX2LABELS_FILE = f'{TMP_FOLDER}/idx2labels4.txt'
+
+# CHECKPOINT_FILE = f"{CKPTS_FOLDER}/fre-BERTBiLSTMAttnCRF.cpt"
+
+# num_epochs = 100
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -28,8 +34,8 @@ if __name__ == "__main__":
     # 2. Preprocess data
 
     data = bert_data.LearnData.create(
-        train_df_path=DEV_FILE,
-        valid_df_path=TEST_FILE,
+        train_df_path=TEST_FILE,
+        valid_df_path=DEV_FILE,
         idx2labels_path=IDX2LABELS_FILE,
         clear_cache=True
     )
@@ -40,11 +46,10 @@ if __name__ == "__main__":
 
     # 4. Train the model
     print('Prepare training...')
-    num_epochs = 100
-    learner = NerLearner(model, data, f"{CKPTS_FOLDER}/fre-BERTBiLSTMAttnCRF.cpt", t_total=num_epochs * len(data.train_dl))
+    learner = NerLearner(model, data, CHECKPOINT_FILE, t_total=NUM_EPOCHS * len(data.train_dl))
     print(f'Got {model.get_n_trainable_params()} trainable params')
 
     print('Training...')
-    learner.fit(epochs=num_epochs)
+    learner.fit(epochs=NUM_EPOCHS)
 
     #rmtree(TMP_FOLDER)
