@@ -1,3 +1,7 @@
+## Quick start
+```sh
+python3 train-bert.py --dev_fre_subset /home/dima/factRuEval-2016/devset --test_fre_subset /home/dima/factRuEval-2016/testset
+```
 ## 0. Papers
 There are two solutions based on this architecture.
 1. [BSNLP 2019 ACL workshop](http://bsnlp.cs.helsinki.fi/shared_task.html): [solution](https://github.com/king-menin/slavic-ner) and [paper](https://arxiv.org/abs/1906.09978) on multilingual shared task.
