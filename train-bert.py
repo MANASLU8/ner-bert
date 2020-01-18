@@ -12,8 +12,12 @@ if __name__ == "__main__":
 
     parser.add_argument('--fact_ru_eval_root', type=str, default='/home/dima/factRuEval-2016')
     parser.add_argument('--checkpoint', type=str, default=CHECKPOINT_FILE)
+    parser.add_argument('--script_root', type=str, default=None)
 
     args = parser.parse_args()
+
+    if args.script_root is not None:
+        os.chdir(args.script_root)
     
     if not os.path.isdir(TMP_FOLDER):
         os.mkdir(TMP_FOLDER)
