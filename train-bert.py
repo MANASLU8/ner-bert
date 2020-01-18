@@ -11,6 +11,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--fact_ru_eval_root', type=str, default='/home/dima/factRuEval-2016')
+    parser.add_argument('--checkpoint', type=str, default=CHECKPOINT_FILE)
 
     args = parser.parse_args()
     
@@ -36,7 +37,7 @@ if __name__ == "__main__":
 
     # 4. Train the model
     print('Prepare training...')
-    learner = NerLearner(model, data, CHECKPOINT_FILE, t_total=NUM_EPOCHS * len(data.train_dl))
+    learner = NerLearner(model, data, args.checkpoint, t_total=NUM_EPOCHS * len(data.train_dl))
     print(f'Got {model.get_n_trainable_params()} trainable params')
 
     print('Training...')
