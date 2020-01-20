@@ -12,14 +12,25 @@ from modules.analyze_utils.plot_metrics import get_bert_span_report
 
 from file_operations import read, write_lines
 from config import TEST_FILE, DEV_FILE, IDX2LABELS_FILE, CHECKPOINT_FILE, NUM_EPOCHS, TMP_FOLDER, RAW_INTERNAL_FILE
-from converters import raw_text_to_internal_format
+from converters import raw_text_to_internal_format, tagged_text_to_internal_format, NO_ENTITY_MARK
 
+TAGGED_MARK = 'tagged'
+
+PREDICTED_TAG_BODIES_MAPPING = {'LOC': 'Location', 'ORG': 'Org', 'PER': 'Person', 'O': 'O'}
+DEFAULT_TAG_BODY = 'Other'
 
 def write_prediction_results(labels, tokens, output_file):
     lines = []
     for sentence_tokens, sentence_labels in zip(tokens, labels):
         for token, label in zip(sentence_tokens, sentence_labels):
-            lines.append(f'{token} {label.split("_")[1].capitalize()}')
+            tag_prefix, tag_body = label.split("_")
+            tag_body = PREDICTED_TAG_BODIES_MAPPING.get(tag_body, DEFAULT_TAG_BODY)
+            if tag_body == NO_ENTITY_MARK:
+                lines.append(f'{token} {NO_ENTITY_MARK}')
+            else:
+                lines.append(f'{token} {tag_prefix}-{tag_body}')
+            #lines.append(f'{token} {label.split("_")[1].capitalize()}')
+        lines.append('')
     write_lines(output_file, lines)
 
 if __name__ == "__main__":
@@ -34,8 +45,10 @@ if __name__ == "__main__":
     if not os.path.isdir(TMP_FOLDER):
         os.mkdir(TMP_FOLDER)
 
-    raw_text_to_internal_format(args.input_file, RAW_INTERNAL_FILE, tokenizer)
-
+    if TAGGED_MARK in args.input_file.split('/')[-1].split('.'):
+        tagged_text_to_internal_format(args.input_file, RAW_INTERNAL_FILE)
+    else:
+        raw_text_to_internal_format(args.input_file, RAW_INTERNAL_FILE, tokenizer)
 
     # 1. Preprocess data
     data = bert_data.LearnData.create(

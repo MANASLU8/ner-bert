@@ -3,6 +3,7 @@
 pip install -r requirements.txt
 python train-bert.py --fact_ru_eval_root /home/dima/factRuEval-2016
 python predict.py --input_file raw.txt --output_file raw.predictions.txt
+python predict.py --input_file eval.tagged.txt --output_file ../ner-comparison/eval.tagged.ner-bert.txt
 ```
 Trained on dev subset of [fact-ru-eval-2016](https://github.com/dialogue-evaluation/factRuEval-2016/tree/master/testset) [model](https://drive.google.com/open?id=1UKT4QTv0YIquR8B3X2_OKIJ0sjICxWlO).
 Jupyter notebook for training the model on google's GPU is available [here](https://colab.research.google.com/drive/18XvVaT7ZVdU0jAFTjLURHwVaK_uHpQPS).
