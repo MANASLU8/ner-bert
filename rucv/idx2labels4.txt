@@ -1,0 +1,8 @@
+[PAD]
+[CLS]
+[SEP]
+X
+I_O
+I_LOC
+I_PER
+I_ORG

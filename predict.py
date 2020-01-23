@@ -39,16 +39,27 @@ if __name__ == "__main__":
 
     parser.add_argument('--input_file', type=str, default='raw.txt')
     parser.add_argument('--output_file', type=str, default='raw.predictions.txt')
+    parser.add_argument('--tagged', action='store_true')
+    parser.add_argument('--checkpoint', type=str, default=CHECKPOINT_FILE)
+
+    parser.add_argument('--train', type=str, default=None)
+    parser.add_argument('--test', type=str, default=None)
+    parser.add_argument('--idx', type=str, default=None)
 
     args = parser.parse_args()
 
     if not os.path.isdir(TMP_FOLDER):
         os.mkdir(TMP_FOLDER)
 
-    if TAGGED_MARK in args.input_file.split('/')[-1].split('.'):
+    if TAGGED_MARK in args.input_file.split('/')[-1].split('.') or args.tagged:
         tagged_text_to_internal_format(args.input_file, RAW_INTERNAL_FILE)
     else:
         raw_text_to_internal_format(args.input_file, RAW_INTERNAL_FILE, tokenizer)
+
+    if args.train and args.test and args.idx:
+        DEV_FILE = args.train
+        TEST_FILE = args.test
+        IDX2LABELS_FILE = args.idx
 
     # 1. Preprocess data
     data = bert_data.LearnData.create(
@@ -63,8 +74,8 @@ if __name__ == "__main__":
     # 2. Create and load the model
     print('Creating the model...')
     model = BERTBiLSTMAttnCRF.create(len(data.train_ds.idx2label), crf_dropout=0.3)
-    learner = NerLearner(model, data, CHECKPOINT_FILE, t_total=NUM_EPOCHS * len(data.train_dl))
-    learner.load_model(CHECKPOINT_FILE)
+    learner = NerLearner(model, data, args.checkpoint, t_total=NUM_EPOCHS * len(data.train_dl))
+    learner.load_model(args.checkpoint)
 
     # 3. Predict
     print('Making predictions...')

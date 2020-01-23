@@ -14,6 +14,10 @@ if __name__ == "__main__":
     parser.add_argument('--checkpoint', type=str, default=CHECKPOINT_FILE)
     parser.add_argument('--script_root', type=str, default=None)
 
+    parser.add_argument('--train', type=str, default=None)
+    parser.add_argument('--test', type=str, default=None)
+    parser.add_argument('--idx', type=str, default=None)
+
     args = parser.parse_args()
 
     if args.script_root is not None:
@@ -24,7 +28,12 @@ if __name__ == "__main__":
 
     # 1. Prepare data
 
-    fact_ru_eval_preprocess(f'{args.fact_ru_eval_root}/devset', f'{args.fact_ru_eval_root}/testset', DEV_FILE, TEST_FILE)
+    if not args.train or not args.test or not args.idx:
+        fact_ru_eval_preprocess(f'{args.fact_ru_eval_root}/devset', f'{args.fact_ru_eval_root}/testset', DEV_FILE, TEST_FILE)
+    else:
+        DEV_FILE = args.test
+        TEST_FILE = args.train
+        IDX2LABELS_FILE = args.idx
 
     # 2. Preprocess data
 
