@@ -1,8 +1,8 @@
 #!/bin/bash
 
 NUMBER_OF_FOLDS=${1:-10}
-NER_COMPARISON_ROOT=/home/dima/ner-comparison
-NER_BERT_ROOT=/home/dima/ner-bert
+NER_COMPARISON_ROOT=/home/nami/ner-comparison
+NER_BERT_ROOT=/home/nami/ner-bert
 
 . ./python/bin/activate
 LD_LIBRARY_PATH=/usr/local/cuda/lib64
