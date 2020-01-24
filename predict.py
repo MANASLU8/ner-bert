@@ -51,15 +51,17 @@ if __name__ == "__main__":
     if not os.path.isdir(TMP_FOLDER):
         os.mkdir(TMP_FOLDER)
 
-    if TAGGED_MARK in args.input_file.split('/')[-1].split('.') or args.tagged:
-        tagged_text_to_internal_format(args.input_file, RAW_INTERNAL_FILE)
-    else:
-        raw_text_to_internal_format(args.input_file, RAW_INTERNAL_FILE, tokenizer)
-
+    
     if args.train and args.test and args.idx:
         DEV_FILE = args.train
         TEST_FILE = args.test
         IDX2LABELS_FILE = args.idx
+    else:
+        if TAGGED_MARK in args.input_file.split('/')[-1].split('.') or args.tagged:
+            tagged_text_to_internal_format(args.input_file, RAW_INTERNAL_FILE)
+        else:
+            raw_text_to_internal_format(args.input_file, RAW_INTERNAL_FILE, tokenizer)  
+
 
     # 1. Preprocess data
     data = bert_data.LearnData.create(
@@ -69,7 +71,10 @@ if __name__ == "__main__":
         clear_cache=True
     )
 
-    dl = get_data_loader_for_predict(data, df_path=RAW_INTERNAL_FILE)
+    if args.train and args.test and args.idx:
+        dl = get_data_loader_for_predict(data, df_path=TEST_FILE)    
+    else:
+        dl = get_data_loader_for_predict(data, df_path=args.input_file)
 
     # 2. Create and load the model
     print('Creating the model...')
